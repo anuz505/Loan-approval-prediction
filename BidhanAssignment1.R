@@ -10,7 +10,7 @@ library(rpart)
 library(rpart.plot)
 
 # Read the dataset
-dataset <- read.csv("train.csv", header = TRUE, stringsAsFactors = TRUE)
+dataset <- read.csv("train.csv",na.strings=c("", "NA"), header = TRUE, stringsAsFactors = TRUE)
 
 # Preview the dataset
 head(dataset)
