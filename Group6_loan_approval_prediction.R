@@ -20,8 +20,22 @@ summary(dataset)
 dataset$Dependents <- revalue(dataset$Dependents, c("3+"="3"))
 
 # Count missing values in each column
-missing_count <- colSums(is.na(dataset))
-print(missing_count)
+tr <- read.csv(file="train.csv", na.strings=c("", "NA"), header=TRUE)
+library(plyr)
+tr$Dependents <- revalue(tr$Dependents, c("3+"="3"))
+sapply(tr, function(x) sum(is.na(x)))
+
+# Visualize missing data pattern
+gg_miss_var(tr) +
+  theme_minimal() +
+  labs(title = "Missing Data Pattern",
+       x = "Variables",
+       y = "Number of Missing Values")
+
+# Count missing values in each column
+#missing_count <- colSums(is.na(dataset))
+#print(missing_count)
+
 
 # Visualize missing data pattern
 gg_miss_var(dataset) +
@@ -134,18 +148,18 @@ loan_clean <- loan_clean %>%
 colSums(is.na(loan_clean))
 
 # Log transformation of Loan Amount
-tr <- loan_clean 
+tr <- loan_clean
 tr$LogLoanAmount <- log(tr$LoanAmount)
 par(mfrow=c(1,2))
-hist(tr$LogLoanAmount, 
-     main="Histogram for Loan Amount", 
-     xlab="Log Loan Amount", 
-     border="blue", 
+hist(tr$LogLoanAmount,
+     main="Histogram for Loan Amount",
+     xlab="Loan Amount",
+     border="blue",
      col="maroon",
-     las=1, 
+     las=1,
      breaks=20, prob = TRUE)
 lines(density(tr$LogLoanAmount), col='black', lwd=3)
-boxplot(tr$LogLoanAmount, col='maroon', xlab = 'Applicant Amount', main = 'Box Plot for Log Loan Amount')
+boxplot(tr$LogLoanAmount, col='maroon', xlab = 'Income', main = 'Box Plot for Applicant Amount')
 
 # Combine incomes and remove original income columns
 tr$Income <- tr$ApplicantIncome + tr$CoapplicantIncome
@@ -155,15 +169,15 @@ tr$CoapplicantIncome <- NULL
 # Log transformation of combined Income
 tr$LogIncome <- log(tr$Income)
 par(mfrow=c(1,2))
-hist(tr$LogIncome, 
-     main="Histogram for Applicant Income", 
-     xlab="Log Income", 
-     border="blue", 
+hist(tr$LogIncome,
+     main="Histogram for Applicant Income",
+     xlab="Income",
+     border="blue",
      col="maroon",
-     las=1, 
+     las=1,
      breaks=50, prob = TRUE)
 lines(density(tr$LogIncome), col='black', lwd=3)
-boxplot(tr$LogIncome, col='maroon', xlab = 'Applicant Income', main = 'Box Plot for applicant Income')
+boxplot(tr$LogIncome, col='maroon', xlab = 'Income', main = 'Box Plot for applicant Income')
 
 # Train-test split
 set.seed(42)
