@@ -20,9 +20,17 @@ summary(dataset)
 dataset$Dependents <- revalue(dataset$Dependents, c("3+"="3"))
 
 # Count missing values in each column
-missing_count <- colSums(is.na(dataset))
-print(missing_count)
+tr <- read.csv(file="train.csv", na.strings=c("", "NA"), header=TRUE)
+library(plyr)
+tr$Dependents <- revalue(tr$Dependents, c("3+"="3"))
+sapply(tr, function(x) sum(is.na(x)))
 
+# Visualize missing data pattern
+gg_miss_var(tr) +
+  theme_minimal() +
+  labs(title = "Missing Data Pattern",
+       x = "Variables",
+       y = "Number of Missing Values")
 
 
 # Distribution of Loan Amount
@@ -289,6 +297,31 @@ ggplot(accuracy_data, aes(x=Model, y=Accuracy, fill=Dataset)) +
         axis.text = element_text(size=10),
         legend.title = element_text(size=12),
         legend.text = element_text(size=10))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

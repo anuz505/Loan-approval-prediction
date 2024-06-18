@@ -32,17 +32,7 @@ gg_miss_var(tr) +
        x = "Variables",
        y = "Number of Missing Values")
 
-# Count missing values in each column
-#missing_count <- colSums(is.na(dataset))
-#print(missing_count)
 
-
-# Visualize missing data pattern
-gg_miss_var(dataset) +
-  theme_minimal() +
-  labs(title = "Missing Data Pattern",
-       x = "Variables",
-       y = "Number of Missing Values")
 
 # Distribution of Loan Amount
 hist(dataset$LoanAmount, 
@@ -308,5 +298,6 @@ ggplot(accuracy_data, aes(x=Model, y=Accuracy, fill=Dataset)) +
         axis.text = element_text(size=10),
         legend.title = element_text(size=12),
         legend.text = element_text(size=10))
+
 
 
