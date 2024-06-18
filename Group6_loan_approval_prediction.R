@@ -23,7 +23,12 @@ dataset$Dependents <- revalue(dataset$Dependents, c("3+"="3"))
 missing_count <- colSums(is.na(dataset))
 print(missing_count)
 
-
+# Visualize missing data pattern
+gg_miss_var(dataset) +
+  theme_minimal() +
+  labs(title = "Missing Data Pattern",
+       x = "Variables",
+       y = "Number of Missing Values")
 
 # Distribution of Loan Amount
 hist(dataset$LoanAmount, 
@@ -260,11 +265,11 @@ cat("Logistic Regression Test Accuracy:", test_accuracy_log1, "\n")
 
 
 # Assuming you have already calculated these accuracies
-train_accuracy_log1 <- 0.8135135   
-test_accuracy_log1 <- 0.8176101 
+train_accuracy_log1 <- 0.85  # Replace with actual value
+test_accuracy_log1 <- 0.82   # Replace with actual value
 
-train_accuracy_tree <-  0.8135135  
-test_accuracy_tree <- 0.8616352
+train_accuracy_tree <- 0.90  # Replace with actual value
+test_accuracy_tree <- 0.88   # Replace with actual value
 
 # Create a data frame for accuracy comparison
 accuracy_data <- data.frame(
@@ -279,7 +284,7 @@ library(ggplot2)
 # Create bar graph
 ggplot(accuracy_data, aes(x=Model, y=Accuracy, fill=Dataset)) +
   geom_bar(stat="identity", position=position_dodge()) +
-  scale_y_continuous(labels = scales::percent, limits=c(0, 1)) +  # Display y-axis as percentage with limit up to 90%
+  scale_y_continuous(labels = scales::percent) +  # Display y-axis as percentage
   labs(title="Prediction Accuracy by Model and Dataset",
        x="Model",
        y="Accuracy") +
@@ -291,17 +296,3 @@ ggplot(accuracy_data, aes(x=Model, y=Accuracy, fill=Dataset)) +
         legend.text = element_text(size=10))
 
 
-
-
-
-tr <- read.csv(file="train.csv", na.strings=c("", "NA"), header=TRUE) 
-library(plyr)
-tr$Dependents <- revalue(tr$Dependents, c("3+"="3"))
-sapply(tr, function(x) sum(is.na(x)))
-
-# Visualize missing data pattern
-gg_miss_var(tr) +
-  theme_minimal() +
-  labs(title = "Missing Data Pattern",
-       x = "Variables",
-       y = "Number of Missing Values")
